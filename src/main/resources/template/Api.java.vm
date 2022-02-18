@@ -1,0 +1,43 @@
+package ${package}.${moduleName}.api;
+
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import ${package}.common.entity.vo.Result;
+import ${package}.${moduleName}.fallback.${className}Fallback;
+import ${package}.${moduleName}.bo.${className}QueryBo;
+import ${package}.${moduleName}.bo.${className}SaveBo;
+import ${package}.${moduleName}.vo.${className}DetailVo;
+import ${package}.${moduleName}.vo.${className}ListVo;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
+
+/**
+ * ${docModule}API
+ *
+ * @author ${author}
+ * @date ${datetime}
+ * @version 1.0
+ */
+@FeignClient(value = "${moduleName}-service", fallback = ${className}Fallback.class)
+public interface ${className}Api {
+
+    @PostMapping("/api/v1/${classname}/page")
+    Result<Page<${className}ListVo>> page(@RequestBody ${className}QueryBo queryBo) throws Exception;
+
+    @PostMapping("/api/v1/${classname}/list")
+    Result<List<${className}ListVo>> list(@RequestBody ${className}QueryBo queryBo) throws Exception;
+
+    @GetMapping("/api/v1/${classname}/info/{id}")
+    Result<${className}DetailVo> get(@PathVariable("id") long id) throws Exception;
+
+    @PostMapping("/api/v1/${classname}/save")
+    Result<Boolean> insert(@RequestBody @Valid ${className}SaveBo saveBo) throws Exception;
+
+    @PostMapping("/api/v1/${classname}/update")
+    Result<Boolean> update(@RequestBody @Valid ${className}SaveBo saveBo) throws Exception;
+
+    @GetMapping("/api/v1/${classname}/delete")
+    Result<Boolean> remove(@RequestParam List<Long> ids) throws Exception;
+}

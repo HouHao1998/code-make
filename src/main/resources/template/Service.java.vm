@@ -1,0 +1,98 @@
+package ${package}.${moduleName}.service;
+
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
+import ${package}.${moduleName}.entity.${className}Entity;
+import ${package}.${moduleName}.bo.${className}SaveBo;
+import ${package}.${moduleName}.bo.${className}QueryBo;
+import ${package}.${moduleName}.vo.${className}DetailVo;
+import ${package}.${moduleName}.vo.${className}ListVo;
+
+import java.util.List;
+
+/**
+ * ${docModule}Service接口类
+ *
+ * @author ${author}
+ * @date ${datetime}
+ * @version 1.0
+ */
+public interface I${className}Service extends IService<${className}Entity> {
+
+    /**
+     * ${docModule}分页查询
+     *
+     * @param queryBo 查询实体
+     * @return ${docModule}分页信息
+     * @author: ${author}
+     * @version: 1.0
+     * @date: ${datetime}
+     */
+    Page<${className}ListVo> page(${className}QueryBo queryBo);
+
+    /**
+     * ${docModule}列表查询
+     *
+     * @param queryBo 查询实体
+     * @return ${docModule}列表信息
+     * @author: ${author}
+     * @version: 1.0
+     * @date: ${datetime}
+     */
+    List<${className}ListVo> list(${className}QueryBo queryBo);
+
+    /**
+     * ${docModule}查询
+     *
+     * @param id 主键ID
+     * @return ${docModule}详情实体
+     * @author: ${author}
+     * @version: 1.0
+     * @date: ${datetime}
+     */
+    ${className}DetailVo get(long id);
+
+    /**
+     * ${docModule}新增
+     *
+     * @param saveBo ${docModule}保存实体
+     * @return boolean 成功标识
+     * @author: ${author}
+     * @version: 1.0
+     * @date: ${datetime}
+     */
+    boolean insert(${className}SaveBo saveBo);
+
+    /**
+     * ${docModule}修改
+     *
+     * @param saveBo ${docModule}保存实体
+     * @return boolean 成功标识
+     * @author: ${author}
+     * @version: 1.0
+     * @date: ${datetime}
+     */
+    boolean update(${className}SaveBo saveBo);
+
+    /**
+     * ${docModule}批量删除
+     *
+     * @param ids 主键ID集合
+     * @return boolean 成功标识
+     * @author: ${author}
+     * @version: 1.0
+     * @date: ${datetime}
+     */
+    boolean remove(List<Long> ids);
+
+    /**
+     * ${docModule}删除
+     *
+     * @param id 主键ID
+     * @return boolean 成功标识
+     * @author: ${author}
+     * @version: 1.0
+     * @date: ${datetime}
+     */
+    boolean remove(long id);
+}

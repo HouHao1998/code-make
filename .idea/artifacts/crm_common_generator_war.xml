@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="crm-common-generator:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="crm-common-generator.war">
+      <element id="artifact" artifact-name="crm-common-generator:war exploded" />
+    </root>
+  </artifact>
+</component>

@@ -1,0 +1,69 @@
+package ${package}.${moduleName}.controller;
+
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import ${package}.common.entity.vo.Result;
+import ${package}.${moduleName}.service.I${className}Service;
+import ${package}.${moduleName}.bo.${className}QueryBo;
+import ${package}.${moduleName}.bo.${className}SaveBo;
+import ${package}.${moduleName}.vo.${className}DetailVo;
+import ${package}.${moduleName}.vo.${className}ListVo;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.*;
+import javax.annotation.Resource;
+import javax.validation.Valid;
+import java.util.List;
+
+/**
+ * ${docModule}Controller
+ *
+ * @author ${author}
+ * @version 1.0
+ * @date ${datetime}
+ */
+@Api(tags = "${docModule}管理")
+@RestController
+@RequestMapping("/api/v1/${classname}")
+public class ${className}Controller {
+
+    @Resource
+    private I${className}Service ${classname}Service;
+
+    @ApiOperation(value = "${docModule}分页查询", notes = "${docModule}分页查询")
+    @PostMapping("/page")
+    Result<Page<${className}ListVo>> page(@RequestBody ${className}QueryBo queryBo) throws Exception{
+        return Result.success(${classname}Service.page(queryBo));
+    }
+
+    @ApiOperation(value = "${docModule}列表查询", notes = "${docModule}列表查询")
+    @PostMapping("/list")
+    Result<List<${className}ListVo>> list(@RequestBody ${className}QueryBo queryBo) throws Exception{
+        return Result.success(${classname}Service.list(queryBo));
+    }
+
+    @ApiOperation(value = "${docModule}查询", notes = "${docModule}查询")
+    @GetMapping("/info/{id}")
+    Result<${className}DetailVo> get(@PathVariable("id") long id) throws Exception{
+        return Result.success(${classname}Service.get(id));
+    }
+
+    @ApiOperation(value = "${docModule}新增", notes = "${docModule}新增")
+    @PostMapping("/save")
+    Result<Boolean> insert(@RequestBody @Valid ${className}SaveBo saveBo) throws Exception{
+        return Result.success(${classname}Service.insert(saveBo));
+    }
+
+    @ApiOperation(value = "${docModule}修改", notes = "${docModule}修改")
+    @PostMapping("/update")
+    Result<Boolean> update(@RequestBody @Valid ${className}SaveBo saveBo) throws Exception{
+        return Result.success(${classname}Service.update(saveBo));
+    }
+
+    @ApiOperation(value = "${docModule}批量删除", notes = "${docModule}批量删除")
+    @ApiImplicitParam(name = "ids", value = "主键ID集合，多个以英文逗号拼接", dataType = "String")
+    @GetMapping("/delete")
+    Result<Boolean> remove(@RequestParam List<Long> ids) throws Exception{
+        return Result.success(${classname}Service.remove(ids));
+    }
+}

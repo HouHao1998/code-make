@@ -1,0 +1,60 @@
+package ${package}.${moduleName}.entity;
+
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import lombok.Data;
+
+import java.io.Serializable;
+
+#if(${hasLocalDate})
+import java.util.Date;
+#end
+#if(${hasLocalDateTime})
+import java.time.LocalDateTime;
+#end
+#if(${hasBigDecimal})
+import java.math.BigDecimal;
+#end
+
+/**
+ * ${docModule}实体
+ * @author ${author}
+ * @date ${datetime}
+ * @version 1.0
+ */
+@Data
+@TableName("${tableName}")
+public class ${className}Entity implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    #foreach ($column in $columns)
+        #if($column.columnName == "ID"
+        || $column.columnName == "TENANT_ID"
+        || $column.columnName == "ORG_ID"
+        || $column.columnName == "STATUS"
+        || $column.columnName == "CREATORID"
+        || $column.columnName == "CREATE_TIME"
+        || $column.columnName == "UPDATERID"
+        || $column.columnName == "UPDATE_TIME"
+        || $column.columnName == "REMARK")
+
+        #else
+            #if($column.attrname == "id")
+                /**
+                 * $column.comments
+                 */
+                @TableId(value = "id", type = IdType.AUTO)
+                private Long id;
+
+            #else
+                /**
+                 * $column.comments
+                 */
+                @TableField("$column.columnName")
+                private $column.attrType $column.attrname;
+            #end
+        #end
+    #end
+}

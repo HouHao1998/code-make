@@ -1,0 +1,83 @@
+package ${package}.${moduleName}.service.impl;
+
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import ${commons}.utils.BeanUtil;
+import ${package}.${moduleName}.entity.${className}Entity;
+import ${package}.${moduleName}.mapper.${className}Mapper;
+import ${package}.${moduleName}.service.I${className}Service;
+import ${package}.${moduleName}.bo.${className}QueryBo;
+import ${package}.${moduleName}.bo.${className}SaveBo;
+import ${package}.${moduleName}.vo.${className}DetailVo;
+import ${package}.${moduleName}.vo.${className}ListVo;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+/**
+ * ${docModule}Service实现类
+ *
+ * @author ${author}
+ * @date ${datetime}
+ * @version 1.0
+ */
+@Service
+public class ${className}ServiceImpl extends ServiceImpl<${className}Mapper, ${className}Entity> implements I${className}Service {
+
+    @Override
+    public Page<${className}ListVo> page(${className}QueryBo queryBo) {
+        // 转换参数实体
+        Page<${className}ListVo> page = new Page<>(queryBo.getCurrent(),queryBo.getSize());
+
+        // 调用分页查询方法
+        List<${className}ListVo> list = baseMapper.getList(page,queryBo);
+
+        // 设置分页结果
+        page.setRecords(list);
+        page.setTotal(page.getTotal());
+
+        return page;
+    }
+
+    @Override
+    public List<${className}ListVo> list(${className}QueryBo queryBo) {
+        // 调用列表查询方法
+        return baseMapper.getList(queryBo);
+    }
+
+    @Override
+    public ${className}DetailVo get(long id) {
+        // 调用查询方法
+        ${className}Entity entity = baseMapper.selectById(id);
+        // 转换返回实体
+        return BeanUtil.copyProperties(entity,${className}DetailVo.class);
+    }
+
+    @Override
+    public boolean insert(${className}SaveBo saveBo) {
+        // 转换参数实体
+        ${className}Entity entity = BeanUtil.copyProperties(saveBo,${className}Entity.class);
+        int row = baseMapper.insert(entity);
+        return row != 0;
+    }
+
+    @Override
+    public boolean update(${className}SaveBo saveBo) {
+        // 转换参数实体
+        ${className}Entity entity = BeanUtil.copyProperties(saveBo,${className}Entity.class);
+        int row = baseMapper.updateById(entity);
+        return row != 0;
+    }
+
+    @Override
+    public boolean remove(List<Long> ids) {
+        int row = baseMapper.deleteBatchIds(ids);
+        return row != 0;
+    }
+
+    @Override
+    public boolean remove(long id) {
+        int row = baseMapper.deleteById(id);
+        return row != 0;
+    }
+}
