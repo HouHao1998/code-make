@@ -7,7 +7,8 @@ import ${package}.${moduleName}.bo.${className}QueryBo;
 import ${package}.${moduleName}.bo.${className}SaveBo;
 import ${package}.${moduleName}.vo.${className}DetailVo;
 import ${package}.${moduleName}.vo.${className}ListVo;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
+import feign.hystrix.FallbackFactory;
 import org.springframework.stereotype.Component;
 
 import javax.validation.Valid;
@@ -22,41 +23,52 @@ import java.util.List;
  */
 @Slf4j
 @Component
-public class ${className}Fallback implements ${className}Api {
-
+public class ${className}Fallback implements FallbackFactory<${className}Api> {
     @Override
-    public Result<Page<${className}ListVo>> page(${className}QueryBo queryBo) {
-        log.info("[${className}Api]的page(${className}QueryBo queryBo)发生异常，请求参数：{}",queryBo);
-        return Result.fail("系统开小差了，请10s后再试");
-    }
+    public ${className}Api create(Throwable throwable) {
+        log.error("<${className}Api error {}", throwable.getMessage(), throwable);
+        return new ${className}Api() {
+            @Override
+            public Result<Page<${className}ListVo>> page(${className}QueryBo queryBo) {
+                log.info("[${className}Api]的page(${className}QueryBo queryBo)发生异常，请求参数：{}", queryBo);
+                return Result.fail("课班系统开小差了，请10s后再试");
+            }
 
-    @Override
-    public Result<List<${className}ListVo>> list(${className}QueryBo queryBo) {
-        log.info("[${className}Api]的list(${className}QueryBo queryBo)发生异常，请求参数：{}",queryBo);
-        return Result.fail("课班系统开小差了，请10s后再试");
-    }
+            @Override
+            public Result<List<${className}ListVo>> list(${className}QueryBo queryBo) {
+                log.info("[${className}Api]的list(${className}QueryBo queryBo)发生异常，请求参数：{}", queryBo);
+                return Result.fail("课班系统开小差了，请10s后再试");
+            }
 
-    @Override
-    public Result<${className}DetailVo> get(long id) {
-        log.info("[${className}Api]的get(long id)发生异常，请求参数：{}",id);
-        return Result.fail("课班系统开小差了，请10s后再试");
-    }
+            @Override
+            public Result<${className}DetailVo> get(long id) {
+                log.info("[${className}Api]的get(long id)发生异常，请求参数：{}", id);
+                return Result.fail("课班系统开小差了，请10s后再试");
+            }
 
-    @Override
-    public Result insert(@Valid ${className}SaveBo saveBo) {
-        log.info("[${className}Api]的insert(${className}SaveBo saveBo)发生异常，请求参数：{}",saveBo);
-        return Result.fail("课班系统开小差了，请10s后再试");
-    }
+            @Override
+            public Result<${className}DetailVo> insert(@Valid ${className}SaveBo saveBo) {
+                log.info("[${className}Api]的insert(${className}SaveBo saveBo)发生异常，请求参数：{}", saveBo);
+                return Result.fail("课班系统开小差了，请10s后再试");
+            }
 
-    @Override
-    public Result update( ${className}SaveBo saveBo) {
-        log.info("[${className}Api]的update()发生异常，请求参数：{}",saveBo);
-        return null;
-    }
+            @Override
+            public Result<${className}DetailVo> update(${className}SaveBo saveBo) {
+                log.info("[${className}Api]的update()发生异常，请求参数：{}", saveBo);
+                return null;
+            }
 
-    @Override
-    public Result remove(List<Long> ids) {
-        log.info("[${className}Api]的remove(List<Long> ids)发生异常，请求参数：{}",ids);
-        return Result.fail("课班系统开小差了，请10s后再试");
+            @Override
+            public Result<String> remove(List<Long> ids) {
+                log.info("[${className}Api]的remove(List<Long> ids)发生异常，请求参数：{}", ids);
+                return Result.fail("课班系统开小差了，请10s后再试");
+            }
+
+            @Override
+            public Result<List<${className}ListVo>> selectIdsList(${className}QueryBo queryBo) {
+                log.info("[${className}Api]的remove(List<Long> ids)发生异常，请求参数：{}", queryBo);
+                return Result.fail("反馈系统开小差了，请10s后再试");
+            }
+        };
     }
 }

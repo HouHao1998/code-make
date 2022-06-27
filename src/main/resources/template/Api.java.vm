@@ -20,7 +20,7 @@ import java.util.List;
  * @date ${datetime}
  * @version 1.0
  */
-@FeignClient(value = "${moduleName}-service", fallback = ${className}Fallback.class)
+@FeignClient(value = "${moduleName}-service", fallbackFactory = ${className}Fallback.class)
 public interface ${className}Api {
 
     @PostMapping("/api/v1/${classname}/page")
@@ -33,11 +33,14 @@ public interface ${className}Api {
     Result<${className}DetailVo> get(@PathVariable("id") long id) throws Exception;
 
     @PostMapping("/api/v1/${classname}/save")
-    Result<Boolean> insert(@RequestBody @Valid ${className}SaveBo saveBo) throws Exception;
+    Result<${className}DetailVo> insert(@RequestBody @Valid ${className}SaveBo saveBo) throws Exception;
 
     @PostMapping("/api/v1/${classname}/update")
-    Result<Boolean> update(@RequestBody @Valid ${className}SaveBo saveBo) throws Exception;
+    Result<${className}DetailVo> update(@RequestBody @Valid ${className}SaveBo saveBo) throws Exception;
 
     @GetMapping("/api/v1/${classname}/delete")
-    Result<Boolean> remove(@RequestParam List<Long> ids) throws Exception;
+    Result<String> remove(@RequestParam("ids") List<Long> ids) throws Exception;
+
+    @PostMapping("/api/v1/${classname}/selectIdsList")
+    Result<List<${className}ListVo>> selectIdsList(@RequestBody ${className}QueryBo queryBo) throws Exception;
 }

@@ -65,6 +65,8 @@ public class GenUtils {
         boolean hasBigDecimal = false;
         boolean hasLocalDate = false;
         boolean hasLocalDateTime = false;
+        boolean dateTime = false;
+        boolean time = false;
         //表信息
         TableEntity tableEntity = new TableEntity();
         tableEntity.setTableName(table.get("tableName" ));
@@ -91,13 +93,18 @@ public class GenUtils {
             //列的数据类型，转换成Java类型
             String attrType = config.getString(columnEntity.getDataType(), "unknowType" );
             columnEntity.setAttrType(attrType);
-            if (!hasBigDecimal && attrType.equals("BigDecimal")) {
-                hasBigDecimal = true;
-            }else if (!hasLocalDate && attrType.equals("Date")){
-                hasLocalDate = true;
-            }else if (!hasLocalDateTime && attrType.equals("LocalDateTime") && !("create_time").equals(columnEntity.getColumnName()) && !("update_time").equals(columnEntity.getColumnName())){
-                hasLocalDateTime = true;
+            if(attrType.equals("unknowType")){
+                if (columnEntity.getDataType().equals("datetime")) {
+                    dateTime = true;
+                    hasLocalDate = true;
+                    columnEntity.setAttrType("Date");
+                }else if (columnEntity.getDataType().equals("time")){
+                    time = true;
+                    hasLocalDate = true;
+                    columnEntity.setAttrType("Date");
+                }
             }
+
             //是否主键
             if ("PRI".equalsIgnoreCase(column.get("columnKey" )) && tableEntity.getPk() == null) {
                 tableEntity.setPk(columnEntity);
@@ -135,6 +142,8 @@ public class GenUtils {
         map.put("pathName", tableEntity.getClassname().toLowerCase());
         map.put("columns", tableEntity.getColumns());
         map.put("hasBigDecimal", hasBigDecimal);
+        map.put("dateTime", dateTime);
+        map.put("time", time);
         map.put("hasLocalDate", hasLocalDate);
         map.put("hasLocalDateTime", hasLocalDateTime);
         map.put("mainPath", mainPath);
@@ -186,6 +195,9 @@ public class GenUtils {
      * 列名转换成Java属性名
      */
     public static String columnToJava(String columnName) {
+        if("class".equals(columnName)){
+            return "clazz";
+        }
         return WordUtils.capitalizeFully(columnName, new char[]{'_'}).replace("_", "" );
     }
 

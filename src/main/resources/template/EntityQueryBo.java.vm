@@ -4,15 +4,17 @@ import ${commons}.entity.bo.PageBo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import java.util.List;
+import java.util.Date;
 
 import java.io.Serializable;
 
-#if(${hasLocalDate})
+
 import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.EqualsAndHashCode;
-#end
+
 #if(${hasLocalDateTime})
 import java.time.LocalDateTime;
 #end
@@ -28,10 +30,17 @@ import java.math.BigDecimal;
  */
 @Data
 @ApiModel
-@EqualsAndHashCode(callSuper = true)
 public class ${className}QueryBo extends PageBo implements Serializable  {
     private static final long serialVersionUID = 1L;
-
+    /**
+     * 批量查询主键id
+     */
+    private List<Long> ids;
+    /**
+    * 模糊查询关键字
+    */
+    @ApiModelProperty(value = "关键字")
+    private String keyword;
     #foreach ($column in $columns)
         #if($column.columnName == "ID"
         || $column.columnName == "TENANT_ID"
@@ -56,8 +65,13 @@ public class ${className}QueryBo extends PageBo implements Serializable  {
                  */
                 @ApiModelProperty(value = "$column.comments")
                     #if($column.attrType == "Date")
-                    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-                    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+                        #if($time )
+                        @JsonFormat(pattern = "HH:mm:ss", timezone = "GMT+8")
+                        @DateTimeFormat(pattern = "HH:mm:ss")
+                        #else
+                        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+                        @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+                        #end
                     #end
                 private $column.attrType $column.attrname;
 

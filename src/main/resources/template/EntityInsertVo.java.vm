@@ -2,6 +2,7 @@ package ${package}.${moduleName}.bo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -21,44 +22,44 @@ import java.math.BigDecimal;
 public class ${className}InsertVo implements Serializable {
     private static final long serialVersionUID = 1L;
 
-#foreach ($column in $columns)
-#if($column.attrType == "String")
-    @NotBlank(message = "$column.comments 不能为空")
-#else
-    @NotNull(message = "$column.comments 不能为空")
-#end
-    @ApiModelProperty(value = "$column.comments",required = true)
+    #foreach ($column in $columns)
+        #if($column.attrType == "String")
+        @NotBlank(message = "$column.comments 不能为空")
+        #else
+        @NotNull(message = "$column.comments 不能为空")
+        #end
+    @ApiModelProperty(value = "$column.comments", required = true)
     private $column.attrType $column.attrname;
 
-#end
-#foreach ($column in $columns)
-    public void set${column.attrName}($column.attrType $column.attrname) {
-        this.$column.attrname = $column.attrname;
-    }
+    #end
+    #foreach ($column in $columns)
+        public void set${column.attrName}($column.attrType $column.attrname) {
+            this.$column.attrname = $column.attrname;
+        }
 
-    public $column.attrType get${column.attrName}() {
-        return $column.attrname;
-    }
+        public $column.attrType get${column.attrName}() {
+            return $column.attrname;
+        }
 
-#end
+    #end
     @Override
     public String toString() {
         return "${className}InsertVo{" +
-#foreach ($column in $columns)
-#if($velocityCount == 1)
-#if($column.attrType == "String" || $column.attrType == "Date")
-                "${column.attrname}='" + ${column.attrname} + '\'' +
-#else
-                "${column.attrname}=" + ${column.attrname} +
-#end
-#else
-#if($column.attrType == "String" || $column.attrType == "Date")
-                ", ${column.attrname}='" + ${column.attrname} + '\'' +
-#else
-                ", ${column.attrname}=" + ${column.attrname} +
-#end
-#end
-#end
+            #foreach ($column in $columns)
+                #if($velocityCount == 1)
+                    #if($column.attrType == "String" || $column.attrType == "Date")
+                            "${column.attrname}='" + ${column.attrname} +'\'' +
+                    #else
+                            "${column.attrname}=" + ${column.attrname} +
+                    #end
+                #else
+                    #if($column.attrType == "String" || $column.attrType == "Date")
+                            ", ${column.attrname}='" + ${column.attrname} +'\'' +
+                    #else
+                            ", ${column.attrname}=" + ${column.attrname} +
+                    #end
+                #end
+            #end
                 "}";
     }
 

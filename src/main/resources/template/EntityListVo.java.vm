@@ -6,11 +6,11 @@ import lombok.Data;
 
 import java.io.Serializable;
 
-#if(${hasLocalDate})
 import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonFormat;
-#end
+import lombok.EqualsAndHashCode;
+
 #if(${hasLocalDateTime})
 import java.time.LocalDateTime;
 #end
@@ -53,8 +53,13 @@ public class ${className}ListVo implements Serializable {
                  */
                 @ApiModelProperty(value = "$column.comments")
                     #if($column.attrType == "Date")
-                    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-                    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+                        #if($time )
+                        @JsonFormat(pattern = "HH:mm:ss", timezone = "GMT+8")
+                        @DateTimeFormat(pattern = "HH:mm:ss")
+                        #else
+                        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+                        @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+                        #end
                     #end
                 private $column.attrType $column.attrname;
 

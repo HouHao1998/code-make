@@ -22,7 +22,7 @@
                         #{${column.attrname}LikeValue}
                     </if>
                 #else
-                    <if test="queryBo.${column.attrname} != null and queryBo.${column.attrname} != '' ">
+                    <if test="queryBo.${column.attrname} != null ">
                         and ${column.columnName} =
                         #{queryBo.${column.attrname}}
                     </if>

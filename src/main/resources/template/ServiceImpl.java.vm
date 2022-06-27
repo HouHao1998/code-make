@@ -2,6 +2,8 @@ package ${package}.${moduleName}.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import ${package}.common.entity.vo.Result;
 import ${commons}.utils.BeanUtil;
 import ${package}.${moduleName}.entity.${className}Entity;
 import ${package}.${moduleName}.mapper.${className}Mapper;
@@ -11,7 +13,7 @@ import ${package}.${moduleName}.bo.${className}SaveBo;
 import ${package}.${moduleName}.vo.${className}DetailVo;
 import ${package}.${moduleName}.vo.${className}ListVo;
 import org.springframework.stereotype.Service;
-
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,59 +27,77 @@ import java.util.List;
 public class ${className}ServiceImpl extends ServiceImpl<${className}Mapper, ${className}Entity> implements I${className}Service {
 
     @Override
-    public Page<${className}ListVo> page(${className}QueryBo queryBo) {
+    public Result<Page<${className}ListVo>> page(${className}QueryBo queryBo) {
         // 转换参数实体
-        Page<${className}ListVo> page = new Page<>(queryBo.getCurrent(),queryBo.getSize());
+        Page<${className}ListVo> page = new Page<>(queryBo.getCurrent(), queryBo.getSize());
 
         // 调用分页查询方法
-        List<${className}ListVo> list = baseMapper.getList(page,queryBo);
+        List<${className}ListVo> list = baseMapper.getList(page, queryBo);
 
         // 设置分页结果
         page.setRecords(list);
         page.setTotal(page.getTotal());
 
-        return page;
+        return Result.success(page);
     }
 
     @Override
-    public List<${className}ListVo> list(${className}QueryBo queryBo) {
+    public Result<List<${className}ListVo>> list(${className}QueryBo queryBo) {
         // 调用列表查询方法
-        return baseMapper.getList(queryBo);
+        return Result.success(baseMapper.getList(queryBo));
     }
 
     @Override
-    public ${className}DetailVo get(long id) {
+    public Result<${className}DetailVo> get(long id) {
         // 调用查询方法
-        ${className}Entity entity = baseMapper.selectById(id);
+            ${className}Entity entity = baseMapper.selectById(id);
         // 转换返回实体
-        return BeanUtil.copyProperties(entity,${className}DetailVo.class);
+        return Result.success(BeanUtil.copyProperties(entity,${className}DetailVo.class));
     }
 
     @Override
-    public boolean insert(${className}SaveBo saveBo) {
+    public Result<${className}DetailVo> insert(${className}SaveBo saveBo) {
         // 转换参数实体
-        ${className}Entity entity = BeanUtil.copyProperties(saveBo,${className}Entity.class);
+            ${className}Entity entity = BeanUtil.copyProperties(saveBo,${className}Entity.class);
         int row = baseMapper.insert(entity);
-        return row != 0;
+        return Result.success(BeanUtil.copyProperties(entity,${className}DetailVo.class));
     }
 
     @Override
-    public boolean update(${className}SaveBo saveBo) {
+    public Result<${className}DetailVo> update(${className}SaveBo saveBo) {
         // 转换参数实体
-        ${className}Entity entity = BeanUtil.copyProperties(saveBo,${className}Entity.class);
+            ${className}Entity entity = BeanUtil.copyProperties(saveBo,${className}Entity.class);
         int row = baseMapper.updateById(entity);
-        return row != 0;
+        return Result.success(BeanUtil.copyProperties(entity,${className}DetailVo.class));
     }
 
     @Override
-    public boolean remove(List<Long> ids) {
+    public Result<String> remove(List<Long> ids) {
         int row = baseMapper.deleteBatchIds(ids);
-        return row != 0;
+        if (row != 0) {
+            return Result.success("删除成功");
+        } else {
+            return Result.fail("删除失败");
+        }
     }
 
     @Override
-    public boolean remove(long id) {
+    public Result<String> remove(long id) {
         int row = baseMapper.deleteById(id);
-        return row != 0;
+        if (row != 0) {
+            return Result.success("删除成功");
+        } else {
+            return Result.fail("删除失败");
+        }
+    }
+    @Override
+    public  Result<List<${className}ListVo>> selectIdsList(List<Long> ids){
+        List<${className}Entity> teacherFeedbackEntities = baseMapper.selectList(new LambdaQueryWrapper<${className}Entity>()
+                .in(${className}Entity::getId, ids));
+        List<${className}ListVo> teacherFeedbackListVos = new ArrayList<>();
+        for (${className}Entity teacherFeedbackEntity : teacherFeedbackEntities) {
+            teacherFeedbackListVos.add(BeanUtil.copyProperties(teacherFeedbackEntity, ${className}ListVo.class));
+        }
+        return Result.success(teacherFeedbackListVos);
     }
 }

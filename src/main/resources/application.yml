@@ -11,7 +11,9 @@ spring:
         type: com.alibaba.druid.pool.DruidDataSource
         driverClassName: com.mysql.jdbc.Driver
 #        urll: jdbc:mysql://10.2.175.59:3306/fh_online_retailers?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
-        url: jdbc:mysql://10.2.175.59:3306/fh_after_user?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
+#        url: jdbc:mysql://10.2.175.59:3306/fh_after_class?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
+        url: jdbc:mysql://10.2.175.59:3306/fh_after_feedback?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
+#        url: jdbc:mysql://localhost:3306/fh_tk?allowMultiQueries=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull
 #        url: jdbc:mysql://rm-3ns25xsjmd7efbk8qho.mysql.rds.aliyuncs.com:3306/test?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
         username: root
         password: 123456
