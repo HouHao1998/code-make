@@ -52,14 +52,9 @@ public class ${className}DetailVo implements Serializable {
                 /**
                  * $column.comments
                  */
-                #if($column.attrType == "Date")
-                    #if($time )
-                    @JsonFormat(pattern = "HH:mm:ss", timezone = "GMT+8")
-                    @DateTimeFormat(pattern = "HH:mm:ss")
-                    #else
+               #if($column.attrType == "Date")
                     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
                     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-                    #end
                 #end
             @ApiModelProperty(value = "$column.comments")
             private $column.attrType $column.attrname;

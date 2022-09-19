@@ -13,8 +13,10 @@ import ${package}.${moduleName}.bo.${className}SaveBo;
 import ${package}.${moduleName}.vo.${className}DetailVo;
 import ${package}.${moduleName}.vo.${className}ListVo;
 import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
 
 /**
  * ${docModule}Service实现类
@@ -59,6 +61,14 @@ public class ${className}ServiceImpl extends ServiceImpl<${className}Mapper, ${c
     public Result<${className}DetailVo> insert(${className}SaveBo saveBo) {
         // 转换参数实体
             ${className}Entity entity = BeanUtil.copyProperties(saveBo,${className}Entity.class);
+        #foreach ($column in $columns)
+            #if($column.columnName == "IS_DELETED")
+            #else
+                #if($column.attrType == "Date")
+                    entity.set$column.attrName (new Date());
+                #end
+            #end
+        #end
         int row = baseMapper.insert(entity);
         return Result.success(BeanUtil.copyProperties(entity,${className}DetailVo.class));
     }
@@ -67,6 +77,14 @@ public class ${className}ServiceImpl extends ServiceImpl<${className}Mapper, ${c
     public Result<${className}DetailVo> update(${className}SaveBo saveBo) {
         // 转换参数实体
             ${className}Entity entity = BeanUtil.copyProperties(saveBo,${className}Entity.class);
+        #foreach ($column in $columns)
+            #if($column.columnName == "IS_DELETED")
+            #else
+                #if($column.attrType == "Date" &&$column.attrName!="CreateTime")
+                    entity.set$column.attrName (new Date());
+                #end
+            #end
+        #end
         int row = baseMapper.updateById(entity);
         return Result.success(BeanUtil.copyProperties(entity,${className}DetailVo.class));
     }
@@ -90,8 +108,9 @@ public class ${className}ServiceImpl extends ServiceImpl<${className}Mapper, ${c
             return Result.fail("删除失败");
         }
     }
+
     @Override
-    public  Result<List<${className}ListVo>> selectIdsList(List<Long> ids){
+    public Result<List<${className}ListVo>> selectIdsList(List<Long> ids) {
         List<${className}Entity> teacherFeedbackEntities = baseMapper.selectList(new LambdaQueryWrapper<${className}Entity>()
                 .in(${className}Entity::getId, ids));
         List<${className}ListVo> teacherFeedbackListVos = new ArrayList<>();
