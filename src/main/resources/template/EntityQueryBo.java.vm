@@ -1,6 +1,5 @@
 package ${package}.${moduleName}.bo;
 
-import ${commons}.entity.bo.PageBo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

@@ -1,7 +1,7 @@
 package ${package}.${moduleName}.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import ${package}.common.entity.vo.Result;
+import ${package}.${moduleName}.entity.Result;
 import ${package}.${moduleName}.service.I${className}Service;
 import ${package}.${moduleName}.bo.${className}QueryBo;
 import ${package}.${moduleName}.bo.${className}SaveBo;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 
 import javax.annotation.Resource;
-import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -52,13 +51,13 @@ public class ${className}Controller {
 
     @ApiOperation(value = "${docModule}新增", notes = "${docModule}新增")
     @PostMapping("/save")
-    public Result<${className}DetailVo> insert(@RequestBody @Valid ${className}SaveBo saveBo) throws Exception {
+    public Result<${className}DetailVo> insert(@RequestBody  ${className}SaveBo saveBo) throws Exception {
         return ${classname}Service.insert(saveBo);
     }
 
     @ApiOperation(value = "${docModule}修改", notes = "${docModule}修改")
     @PostMapping("/update")
-    public Result<${className}DetailVo> update(@RequestBody @Valid ${className}SaveBo saveBo) throws Exception {
+    public Result<${className}DetailVo> update(@RequestBody  ${className}SaveBo saveBo) throws Exception {
         return ${classname}Service.update(saveBo);
     }
 
