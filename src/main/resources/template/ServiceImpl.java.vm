@@ -1,122 +1,82 @@
-package ${package}.${moduleName}.service.impl;
+package ${packageService}.${topName};
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import ${package}.${moduleName}.entity.Result;
-import cn.hutool.core.bean.BeanUtil;
-import ${package}.${moduleName}.entity.${className}Entity;
-import ${package}.${moduleName}.mapper.${className}Mapper;
-import ${package}.${moduleName}.service.I${className}Service;
-import ${package}.${moduleName}.bo.${className}QueryBo;
-import ${package}.${moduleName}.bo.${className}SaveBo;
-import ${package}.${moduleName}.vo.${className}DetailVo;
-import ${package}.${moduleName}.vo.${className}ListVo;
+
+import com.bwda.saas.application.service.util.CodeGeneratorService;
+import ${packageDomain}.base.idgenerator.IdGeneratorType;
+import ${packageDomain}.${topName}.${className};
+import ${packageDomain}.${topName}.${className}Service;
+import ${packageDomain}.${topName}.Page${className};
+import ${packageRepo}.${topName}.${className}Repo;
+import com.bwda.som.commons.utility.base.model.pagenation.PageResult;
+import org.apache.dubbo.config.annotation.DubboService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Date;
+
 
 /**
- * ${docModule}Service实现类
+ * <b>${docModule}</b>
+ * <pre>
+ * 描述<br/>
+ * 作用：；<br/>
+ * 限制：；<br/>
+ * </pre>
  *
- * @author ${author}
+ * @author 侯浩(1272)
  * @date ${datetime}
- * @version 1.0
  */
+@DubboService
 @Service
-public class ${className}ServiceImpl extends ServiceImpl<${className}Mapper, ${className}Entity> implements I${className}Service {
+public class ${className}ServiceImpl implements ${className}Service {
+    @Autowired
+    ${className}Repo ${classname}Repo;
+
+    @Autowired
+    CodeGeneratorService codeGeneratorService;
 
     @Override
-    public Result<Page<${className}ListVo>> page(${className}QueryBo queryBo) {
-        // 转换参数实体
-        Page<${className}ListVo> page = new Page<>(queryBo.getCurrent(), queryBo.getSize());
+    public PageResult<${className}> page${className}By(Page${className} page${className}) {
 
-        // 调用分页查询方法
-        List<${className}ListVo> list = baseMapper.getList(page, queryBo);
-
-        // 设置分页结果
-        page.setRecords(list);
-        page.setTotal(page.getTotal());
-
-        return Result.success(page);
+        return ${classname}Repo.page${className}By(page${className});
     }
 
     @Override
-    public Result<List<${className}ListVo>> list(${className}QueryBo queryBo) {
-        // 调用列表查询方法
-        return Result.success(baseMapper.getList(queryBo));
+    public Long add${className}(${className} ${classname}) {
+        Long sn = codeGeneratorService.nextIdToDate(IdGeneratorType.FLOW);
+        ${classname}.setSn(sn);
+        ${classname}Repo.insertList(${classname});
+        return sn;
     }
 
     @Override
-    public Result<${className}DetailVo> get(long id) {
-        // 调用查询方法
-            ${className}Entity entity = baseMapper.selectById(id);
-        // 转换返回实体
-        return Result.success(BeanUtil.copyProperties(entity,${className}DetailVo.class));
+    public void edit${className}(Long sn, ${className} ${classname}) {
+        ${classname}Repo.updateBySn(${classname}, sn);
+    }
+
+
+    @Override
+    public void enable${className}(Long sn) {
+        ${classname}Repo.enable${className}(sn);
     }
 
     @Override
-    public Result<${className}DetailVo> insert(${className}SaveBo saveBo) {
-        // 转换参数实体
-            ${className}Entity entity = BeanUtil.copyProperties(saveBo,${className}Entity.class);
-        #foreach ($column in $columns)
-            #if($column.columnName == "IS_DELETED")
-            #else
-                #if($column.attrType == "Date")
-                    entity.set$column.attrName (new Date());
-                #end
-            #end
-        #end
-        int row = baseMapper.insert(entity);
-        return Result.success(BeanUtil.copyProperties(entity,${className}DetailVo.class));
+    public void disable${className}(Long sn) {
+        ${classname}Repo.disable${className}(sn);
     }
 
     @Override
-    public Result<${className}DetailVo> update(${className}SaveBo saveBo) {
-        // 转换参数实体
-            ${className}Entity entity = BeanUtil.copyProperties(saveBo,${className}Entity.class);
-        #foreach ($column in $columns)
-            #if($column.columnName == "IS_DELETED")
-            #else
-                #if($column.attrType == "Date" &&$column.attrName!="CreateTime")
-                    entity.set$column.attrName (new Date());
-                #end
-            #end
-        #end
-        int row = baseMapper.updateById(entity);
-        return Result.success(BeanUtil.copyProperties(entity,${className}DetailVo.class));
+    public void delete${className}(Long sn) {
+        ${classname}Repo.deleteBySn(sn);
     }
 
     @Override
-    public Result<String> remove(List<Long> ids) {
-        int row = baseMapper.deleteBatchIds(ids);
-        if (row != 0) {
-            return Result.success("删除成功");
-        } else {
-            return Result.fail("删除失败");
-        }
+    public ${className} get${className}(Long sn) {
+        return ${classname}Repo.get${className}BySn(sn);
     }
 
     @Override
-    public Result<String> remove(long id) {
-        int row = baseMapper.deleteById(id);
-        if (row != 0) {
-            return Result.success("删除成功");
-        } else {
-            return Result.fail("删除失败");
-        }
-    }
-
-    @Override
-    public Result<List<${className}ListVo>> selectIdsList(List<Long> ids) {
-        List<${className}Entity> teacherFeedbackEntities = baseMapper.selectList(new LambdaQueryWrapper<${className}Entity>()
-                .in(${className}Entity::getId, ids));
-        List<${className}ListVo> teacherFeedbackListVos = new ArrayList<>();
-        for (${className}Entity teacherFeedbackEntity : teacherFeedbackEntities) {
-            teacherFeedbackListVos.add(BeanUtil.copyProperties(teacherFeedbackEntity, ${className}ListVo.class));
-        }
-        return Result.success(teacherFeedbackListVos);
+    public List<${className}> get${className}List(Page${className} page${classname}) {
+        return whiteListsRepo.${classname}List( page${classname},true);
     }
 }

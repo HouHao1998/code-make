@@ -1,106 +1,80 @@
-package ${package}.${moduleName}.service;
+package  ${packageDomain}.${topName};
 
-import ${package}.${moduleName}.entity.Result;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.IService;
-import ${package}.${moduleName}.entity.${className}Entity;
-import ${package}.${moduleName}.bo.${className}SaveBo;
-import ${package}.${moduleName}.bo.${className}QueryBo;
-import ${package}.${moduleName}.vo.${className}DetailVo;
-import ${package}.${moduleName}.vo.${className}ListVo;
+import com.bwda.som.commons.utility.base.model.pagenation.PageResult;
 
 import java.util.List;
 
 /**
- * ${docModule}Service接口类
+ * <b>${docModule}</b>
+ * <pre>
+ * 描述<br/>
+ * 作用：；<br/>
+ * 限制：；<br/>
+ * </pre>
  *
- * @author ${author}
+ * @author 侯浩(1272)
  * @date ${datetime}
- * @version 1.0
  */
-public interface I${className}Service extends IService<${className}Entity> {
-
+public interface ${className}Service  {
     /**
-     * ${docModule}分页查询
+     * 白名单信息列表
      *
-     * @param queryBo 查询实体
-     * @return ${docModule}分页信息
-     * @author: ${author}
-     * @version: 1.0
-     * @date: ${datetime}
+     * @param Page${classname}
+     * @return List<${className}>
      */
-    Result<Page<${className}ListVo>> page(${className}QueryBo queryBo);
+    List<${className}> get${className}List(Page${className} page${classname});
+
 
     /**
-     * ${docModule}列表查询
+     * 添加白名单
      *
-     * @param queryBo 查询实体
-     * @return ${docModule}列表信息
-     * @author: ${author}
-     * @version: 1.0
-     * @date: ${datetime}
+     * @param ${classname}
      */
-    Result<List<${className}ListVo>> list(${className}QueryBo queryBo);
+    Long add${className}(${className} ${classname});
 
     /**
-     * ${docModule}查询
+     * 编辑白名单
      *
-     * @param id 主键ID
-     * @return ${docModule}详情实体
-     * @author: ${author}
-     * @version: 1.0
-     * @date: ${datetime}
+     * @param sn         策略编号
+     * @param ${classname} 策略
      */
-    Result<${className}DetailVo> get(long id);
+    void edit${className}(Long sn, ${className} ${classname});
+
 
     /**
-     * ${docModule}新增
+     * 启用-白名单
      *
-     * @param saveBo ${docModule}保存实体
-     * @return Result<${className}DetailVo> 详情实体
-     * @author: ${author}
-     * @version: 1.0
-     * @date: ${datetime}
+     * @param sn 策略编号
      */
-    Result<${className}DetailVo> insert(${className}SaveBo saveBo);
+    void enable${className}(Long sn);
 
     /**
-     * ${docModule}修改
+     * 禁用-白名单
      *
-     * @param saveBo ${docModule}保存实体
-     * @return Result<${className}DetailVo> 详情实体
-     * @author: ${author}
-     * @version: 1.0
-     * @date: ${datetime}
+     * @param sn 策略编号
      */
-    Result<${className}DetailVo> update(${className}SaveBo saveBo);
+    void disable${className}(Long sn);
 
     /**
-     * ${docModule}批量删除
+     * 删除-白名单
+     * 前置条件：已禁用状态
      *
-     * @param ids 主键ID集合
-     * @return Result<String> 是否成功
-     * @author: ${author}
-     * @version: 1.0
-     * @date: ${datetime}
+     * @param sn 策略编号
      */
-    Result<String> remove(List<Long> ids);
+    void delete${className}(Long sn);
 
     /**
-     * ${docModule}删除
+     * 获取白名单
      *
-     * @param id 主键ID
-     * @return Result<String> 是否成功
-     * @author: ${author}
-     * @version: 1.0
-     * @date: ${datetime}
+     * @param sn 白名单编号
+     * @return ${className}
      */
-    Result<String> remove(long id);
+    ${className} get${className}(Long sn);
 
     /**
-     * ${docModule}批量查询
-     * @param ids id集合
-     * @return  ${datetime}详情实体
+     * 分页查询白名单主
+     *
+     * @return 白名单主
      */
-    Result<List<${className}ListVo>> selectIdsList(List<Long> ids);
+    PageResult<${className}> page${className}By(Page${className} page${className});
 }

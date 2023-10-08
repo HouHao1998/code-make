@@ -1,0 +1,117 @@
+package ${package}.${topName};
+
+import ${package}.${topName}.dto.${className}DTO;
+import ${package}.${topName}.vo.${className}VO;
+import ${package}.${topName}.assembler.${className}DTOAssembler;
+import ${package}.${topName}.assembler.${className}VOAssembler;
+import ${packageDomain}.${topName}.${className};
+import ${packageDomain}.${topName}.Page${className};
+import org.springframework.beans.factory.annotation.Autowired;
+import com.bwda.som.commons.utility.base.model.pagenation.PageResult;
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+
+/**
+ * <b>${docModule}</b>
+ * <pre>
+ * 描述<br/>
+ * 作用：；<br/>
+ * 限制：；<br/>
+ * </pre>
+ *
+ * @author 侯浩(1272)
+ * @date 2023/9/20 10:44
+ */
+@Service
+public class ${className}App {
+
+    @DubboReference
+    ${className}Service ${classname}Service;
+
+    @Autowired
+    ${className}VOAssembler ${classname}VoAssembler;
+
+    @Autowired
+    ${className}DTOAssembler ${classname}DtoAssembler;
+
+    /**
+     * 分页查询${docModule}
+     *
+     * @return List<DataBasicVO>
+     */
+    public PageResult<${className}VO> page${className}(Page${className} page${className}) {
+        PageResult<${className}> ${classname}s = ${classname}Service.page${className}By(page${className});
+        PageResult<${className}VO> ${classname}VoPageResult = new PageResult<>(${classname}s.getPage());
+        ${classname}VoPageResult.setResults(${classname}VoAssembler.assemble(${classname}s.getResults()));
+        return ${classname}VoPageResult;
+    }
+
+    /**
+     * 新增${docModule}
+     *
+     * @param ${classname}DTO
+     * @return
+     */
+    public Long add${className}(${className}DTO ${classname}DTO) {
+        ${className} ${classname} = ${classname}DtoAssembler.parse(${classname}DTO);
+        return ${classname}Service.add${className}(${classname});
+    }
+
+    /**
+     * 删除${docModule}
+     *
+     * @param sn
+     */
+    public void delete${className}(Long sn) {
+
+        ${classname}Service.delete${className}(sn);
+    }
+    /**
+     * 修改${docModule}
+     *
+     * @param ${classname}DTO
+     */
+    public void update${className}(${className}DTO ${classname}DTO) {
+        ${className} ${classname} = ${classname}DtoAssembler.parse(${classname}DTO);
+        ${classname}Service.edit${className}(${classname}.getSn(), ${classname});
+    }
+    /**
+     * 启动${docModule}
+     *
+     * @param ${classname}DTO
+     */
+    public void enable${className}(Long sn) {
+        ${classname}Service.enable${className}(sn);
+    }
+    /**
+     * 关闭${docModule}
+     *
+     * @param ${classname}DTO
+     */
+    public void disable${className}(Long sn) {
+        ${classname}Service.disable${className}(sn);
+    }
+    /**
+     * 获取单一${docModule}
+     *
+     * @param ${classname}DTO
+     */
+    public ${className}VO get${className}(Long sn) {
+        return   ${classname}VoAssembler.assemble(${classname}Service.get${className}(sn));
+    }
+
+    /**
+     * 获取列表不分页${docModule}
+     *
+     * @param ${classname}DTO
+     */
+    public List<${className}VO> ${classname}List(Page${className} page${classname}) {
+        List<${className}> ${classname}s = ${classname}Service.get${className}List(page${classname});
+        return ${classname}VoAssembler.assemble(${classname}s);
+    }
+
+
+}

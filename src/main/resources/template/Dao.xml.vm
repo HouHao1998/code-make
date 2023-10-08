@@ -1,33 +1,136 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="${package}.${moduleName}.mapper.${className}Mapper">
+<mapper namespace="${packageRepo}.${topName}.dao.${className}DAO">
 
-    <!-- ${docModule}查询 -->
-    <select id="getList" resultType="${package}.${moduleName}.vo.${className}ListVo"
-            parameterType="${package}.${moduleName}.bo.${className}QueryBo">
-        SELECT
-        #foreach ($column in $columns)
-            ${column.columnName}#if($foreach.hasNext),
-        #end
-        #end
-        FROM ${tableName}
+
+    <select id="countBy" resultType="java.lang.Long">
+        select count(*)
+        from ${tableName}
         <where>
             #foreach ($column in $columns)
+                #if($column.attrname == "adder"||$column.attrname == "addTime"||$column.attrname == "updater"||$column.attrname == "updateTime")
+                #else
                 #if($column.attrType == "String")
-                    <if test="queryBo.${column.attrname} != null and queryBo.${column.attrname} != ''">
+
+                    <if test="${column.attrname} != null and ${column.attrname} != ''">
                         <bind name="${column.attrname}LikeValue"
-                              value="'%' + queryBo.${column.attrname} + '%'"/>
-                        and ${column.columnName} like
+                              value="'%' + ${column.attrname} + '%'"/>
+                        and `${column.columnName}` like
                         #{${column.attrname}LikeValue}
                     </if>
                 #else
-                    <if test="queryBo.${column.attrname} != null ">
-                        and ${column.columnName} =
-                        #{queryBo.${column.attrname}}
+                    <if test="${column.attrname} != null ">
+                        and `${column.columnName}` =
+                        #{${column.attrname}}
+                    </if>
+                #end
+                #end
+            #end
+           and deleted = 0
+        </where>
+    </select>
+
+    <select id="pageBy" resultType="${packageRepo}.${topName}.po.${className}PO">
+        select
+        #foreach ($column in $columns)
+            `${column.columnName}`#if($foreach.hasNext),
+        #end
+        #end
+        from ${tableName}
+        <where>
+            #foreach ($column in $columns)
+                #if($column.attrname == "adder"||$column.attrname == "addTime"||$column.attrname == "updater"||$column.attrname == "updateTime")
+                #else
+                #if($column.attrType == "String")
+
+                    <if test="pageBy.${column.attrname} != null and pageBy.${column.attrname} != ''">
+                        <bind name="${column.attrname}LikeValue"
+                              value="'%' + pageBy.${column.attrname} + '%'"/>
+                        and `${column.columnName}` like
+                        #{${column.attrname}LikeValue}
+                    </if>
+
+                #else
+                    <if test="pageBy.${column.attrname} != null ">
+                        and `${column.columnName}` =
+                        #{pageBy.${column.attrname}}
+                    </if>
+                #end
+                #end
+            #end
+           and deleted = 0
+        </where>
+    </select>
+    <update id="updateBySn">
+    update ${tableName}
+        <set>
+            #foreach ($column in $columns)
+                #if($column.attrType == "String")
+                    <if test="updated.${column.attrname} != null">
+                        `${column.columnName}` =
+                        #{updated.${column.attrname}}
+                    </if>
+                #else
+                    <if test="updated.${column.attrname} != null ">
+                        `${column.columnName}` =
+                        #{updated.${column.attrname}}
                     </if>
                 #end
             #end
-        </where>
+        </set>
+    where sn = #{sn,jdbcType=BIGINT}
+    </update>
+    <select id="selectBySn" resultType="${packageRepo}.${topName}.po.${className}PO">
+        select
+            #foreach ($column in $columns)
+                `${column.columnName}`#if($foreach.hasNext),
+            #end
+            #end
+        from  ${tableName}
+        where sn = #{sn,jdbcType=BIGINT}
     </select>
+    <update id="enable${className}">
+        update
+            ${tableName}
+        set enabled=1,
+            updater=#{updater},
+            update_time=now()
+        where sn = #{sn}
+    </update>
+
+    <update id="disable${className}">
+        update
+            ${tableName}
+        set enabled = 0,
+            updater=#{updater},
+            update_time=now()
+        where sn = #{sn}
+    </update>
+
+    <delete id="deleteBySn">
+        update
+            ${tableName}
+        set deleted=1,
+            updater=#{updater},
+            update_time=now()
+        where sn = #{sn}
+    </delete>
+    <insert id="insertList">
+        INSERT INTO ${tableName}(
+
+        #foreach ($column in $columns)
+            `${column.columnName}`#if($foreach.hasNext),
+        #end
+        #end
+
+        )VALUES
+        <foreach collection="list" item="element" index="index" separator=",">
+            (
+            #foreach ($column in $columns)
+                #{element.${column.attrname}} #if($foreach.hasNext),#end
+            #end
+           )
+        </foreach>
+    </insert>
 </mapper>

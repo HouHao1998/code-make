@@ -22,6 +22,7 @@ public class TableEntity {
     private String className;
     //类名(第一个字母小写)，如：sys_user => sysUser
     private String classname;
+    private String topName;
 
     public String getTableName() {
         return tableName;
@@ -69,5 +70,13 @@ public class TableEntity {
 
     public void setClassname(String classname) {
         this.classname = classname;
+    }
+
+    public String getTopName() {
+        return topName;
+    }
+
+    public void setTopName(String topName) {
+        this.topName = topName;
     }
 }

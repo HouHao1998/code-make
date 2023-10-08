@@ -1,0 +1,89 @@
+package  ${packageRepo}.${topName};
+
+import ${packageDomain}.${topName}.${className};
+import ${packageDomain}.${topName}.Page${className};
+import ${packageRepo}.${topName}.assembler.${className}Assembler;
+import ${packageRepo}.${topName}.dao.${className}DAO;
+import ${packageRepo}.${topName}.po.${className}PO;
+import com.bwda.som.commons.utility.base.model.pagenation.PageResult;
+import com.bwda.som.commons.utility.base.model.pagenation.PageStatus;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * <b>${docModule}</b>
+ * <pre>
+ * 描述<br/>
+ * 作用：；<br/>
+ * 限制：；<br/>
+ * </pre>
+ *
+ * @author 侯浩(1272)
+ * @date ${datetime}
+ */
+@Repository
+public class ${className}Repo {
+
+    @Autowired
+    ${className}DAO ${classname}Dao;
+
+
+    @Autowired
+    ${className}Assembler ${classname}Assembler;
+    
+
+
+    public PageResult<${className}> page${className}By(Page${className} condition) {
+        long records = ${classname}Dao.countBy(condition);
+        PageResult<${className}PO> pageResult = new PageResult<>(new PageStatus(condition.getIndex(), condition.getSize(), records));
+        if (records > 0) {
+            List<${className}PO> fundamentalDataList = ${classname}Dao.pageBy(condition, true);
+            pageResult.setResults(fundamentalDataList);
+        }
+        PageResult<${className}> ${classname}VoPageResult = new PageResult<>(pageResult.getPage());
+        ${classname}VoPageResult.setResults(${classname}Assembler.parse(pageResult.getResults()));
+        return ${classname}VoPageResult;
+
+    }
+
+    public void updateBySn(${className} ${classname}, Long sn) {
+        ${className}PO assemble = ${classname}Assembler.assemble(${classname});
+        ${classname}Dao.updateBySn(assemble, sn);
+    }
+
+    public ${className} get${className}BySn(Long sn) {
+
+        return ${classname}Assembler.parse(${classname}Dao.selectBySn(sn));
+    }
+
+    public void deleteBySn(Long sn) {
+
+        ${classname}Dao.deleteBySn(sn);
+    }
+
+    public void insertList(${className} ${classname}) {
+        ${className}PO assemble = ${classname}Assembler.assemble(${classname});
+        assemble.setDeleted(false);
+        List<${className}PO> list = new ArrayList<>();
+        list.add(assemble);
+        ${classname}Dao.insertList(list);
+    }
+
+    public void enable${className}(Long sn) {
+        ${classname}Dao.enable${className}(sn);
+    }
+
+    public void disable${className}(Long sn) {
+        ${classname}Dao.disable${className}(sn);
+    }
+
+    public List<${className}> ${classname}List(Page${className} page${className}, boolean includeDeleted) {
+        List<${className}PO> ${classname}List = ${classname}Dao.pageBy(page${className}, includeDeleted);
+        return ${classname}Assembler.parse(${classname}List);
+    }
+
+
+}

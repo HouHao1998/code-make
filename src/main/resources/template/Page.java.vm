@@ -1,0 +1,55 @@
+package  ${packageDomain}.${topName};
+
+import com.bwda.som.commons.utility.base.model.pagenation.PageSupportCondition;
+import lombok.Data;
+
+import java.util.Date;
+import java.io.Serializable;
+
+#if($hasLocalDate)
+import java.util.Date;
+#end
+#if(${hasLocalDateTime})
+import java.time.LocalDateTime;
+#end
+#if(${hasBigDecimal})
+import java.math.BigDecimal;
+#end
+/**
+ * <b>${docModule}</b>
+ * <pre>
+ * 描述<br/>
+ * 作用：；<br/>
+ * 限制：；<br/>
+ * </pre>
+ *
+ * @author 侯浩(1272)
+ * @date ${datetime}
+ */
+@Data
+public class Page${className} extends PageSupportCondition implements Serializable {
+
+
+#foreach ($column in $columns)
+    #if($column.columnName == "ID"
+    || $column.columnName == "TENANT_ID"
+    || $column.columnName == "ORG_ID"
+    || $column.columnName == "STATUS"
+    || $column.columnName == "CREATORID"
+    || $column.columnName == "CREATE_TIME"
+    || $column.columnName == "UPDATERID"
+    || $column.columnName == "UPDATE_TIME"
+    || $column.columnName == "REMARK")
+
+    #else
+        #if($column.attrname == "adder"||$column.attrname == "addTime"||$column.attrname == "updater"||$column.attrname == "updateTime")
+
+        #else
+        /**
+         * $column.comments
+         */
+        private $column.attrType $column.attrname;
+        #end
+    #end
+#end
+}

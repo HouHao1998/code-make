@@ -1,4 +1,4 @@
-package  ${packageDomain}.${topName};
+package ${package}.${topName}.dto;
 
 import lombok.Data;
 
@@ -26,7 +26,7 @@ import java.math.BigDecimal;
  * @date ${datetime}
  */
 @Data
-public class ${className} implements Serializable {
+public class ${className}DTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     #foreach ($column in $columns)
@@ -40,6 +40,7 @@ public class ${className} implements Serializable {
         || $column.columnName == "UPDATE_TIME"
         || $column.columnName == "REMARK")
 
+
         #else
             #if($column.attrname == "adder"||$column.attrname == "addTime"||$column.attrname == "updater"||$column.attrname == "updateTime")
 
@@ -51,4 +52,5 @@ public class ${className} implements Serializable {
             #end
         #end
     #end
+
 }

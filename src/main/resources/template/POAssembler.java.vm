@@ -1,0 +1,66 @@
+package ${packageRepo}.${topName}.assembler;
+
+import ${packageRepo}.${topName}.po.${className}PO;
+import ${packageDomain}.${topName}.${className};
+import com.bwda.saas.domain.da.task.SchedulingMode;
+import com.bwda.som.commons.utility.base.assembler.CommonAssembler;
+import org.springframework.stereotype.Repository;
+/**
+ * <b>${docModule}</b>
+ * <pre>
+ * 描述<br/>
+ * 作用：；<br/>
+ * 限制：；<br/>
+ * </pre>
+ *
+ * @author 侯浩(1272)
+ * @date ${datetime}
+ */
+@Repository
+public class ${className}Assembler extends CommonAssembler<${className}PO, ${className}> {
+    @Override
+    protected ${className}PO doAssemble(${className} ${classname}) {
+        ${className}PO ${classname}Po = new ${className}PO();
+        #foreach ($column in $columns)
+            #if($column.columnName == "ID"
+            || $column.columnName == "TENANT_ID"
+            || $column.columnName == "ORG_ID"
+            || $column.columnName == "STATUS"
+            || $column.columnName == "CREATORID"
+            || $column.columnName == "CREATE_TIME"
+            || $column.columnName == "UPDATERID"
+            || $column.columnName == "UPDATE_TIME"
+            || $column.columnName == "REMARK")
+            #else
+                #if($column.attrname == "adder"||$column.attrname == "addTime"||$column.attrname == "updater"||$column.attrname == "updateTime")
+                #else
+                    ${classname}Po.set$column.attrName (${classname}.get$column.attrName ());
+                #end
+            #end
+        #end
+        return ${classname}Po;
+    }
+
+    @Override
+    protected ${className} doParse(${className}PO po) {    
+        ${className} ${classname} = new ${className}();
+        #foreach ($column in $columns)
+            #if($column.columnName == "ID"
+            || $column.columnName == "TENANT_ID"
+            || $column.columnName == "ORG_ID"
+            || $column.columnName == "STATUS"
+            || $column.columnName == "CREATORID"
+            || $column.columnName == "CREATE_TIME"
+            || $column.columnName == "UPDATERID"
+            || $column.columnName == "UPDATE_TIME"
+            || $column.columnName == "REMARK")
+            #else
+                #if($column.attrname == "adder"||$column.attrname == "addTime"||$column.attrname == "updater"||$column.attrname == "updateTime")
+                #else
+                    ${classname}.set$column.attrName (po.get$column.attrName ());
+                #end
+            #end
+        #end
+        return ${classname};
+    }
+}

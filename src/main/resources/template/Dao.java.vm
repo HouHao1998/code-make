@@ -1,43 +1,46 @@
-package ${package}.${moduleName}.mapper;
+package  ${packageRepo}.${topName}.dao;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import ${package}.${moduleName}.entity.${className}Entity;
-import ${package}.${moduleName}.bo.${className}QueryBo;
-import ${package}.${moduleName}.vo.${className}ListVo;
-import org.apache.ibatis.annotations.Mapper;
+import ${packageDomain}.${topName}.Page${className};
+import ${packageRepo}.${topName}.po.${className}PO;
+import com.bwda.som.commons.framework.enhancement.autofillauditfield.annotation.AutofillAuditFields;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /**
- * ${docModule}Mapper
- * @author ${author}
+ * <b>${docModule}</b>
+ * <pre>
+ * 描述<br/>
+ * 作用：；<br/>
+ * 限制：；<br/>
+ * </pre>
+ *
+ * @author 侯浩(1272)
  * @date ${datetime}
- * @version 1.0
  */
-@Mapper
 @Repository
-public interface ${className}Mapper extends BaseMapper<${className}Entity> {
-    /**
-     * ${docModule}分页查询
-     *
-     * @param page 分页信息
-     * @param queryBo 查询实体
-     * @return ${docModule}分页信息
-     * @author ${author}
-     * @date ${datetime}
-     */
-    List<${className}ListVo> getList(Page<${className}ListVo> page, @Param("queryBo") ${className}QueryBo queryBo);
+public interface ${className}DAO {
 
-    /**
-     * ${docModule}列表查询
-     *
-     * @param queryBo 查询实体
-     * @return ${docModule}列表信息
-     * @author ${author}
-     * @date ${datetime}
-     */
-    List<${className}ListVo> getList(@Param("queryBo") ${className}QueryBo queryBo);
+    Long countBy(Page${className} condition);
+
+
+    @AutofillAuditFields
+    int updateBySn(@Param("updated") ${className}PO updated, @Param("sn") Long sn);
+
+    ${className}PO selectBySn(@Param("sn") Long sn);
+
+    @AutofillAuditFields
+    int insertList(@Param("list") List<${className}PO> list);
+
+    @AutofillAuditFields
+    int deleteBySn(@Param("sn") Long sn);
+
+    List<${className}PO> pageBy(@Param("pageBy") Page${className} condition, @Param("includeDeleted") boolean includeDeleted);
+
+    @AutofillAuditFields
+    void enable${className}(@Param("sn") Long sn);
+
+    @AutofillAuditFields
+    void disable${className}(@Param("sn") Long sn);
 }

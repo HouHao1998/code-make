@@ -1,0 +1,50 @@
+package ${package}.${topName}.assembler;
+
+import ${package}.${topName}.dto.${className}DTO;
+import ${packageDomain}.${topName}.${className};
+import com.bwda.som.commons.utility.base.assembler.CommonAssembler;
+import org.springframework.stereotype.Component;
+/**
+ * <b>${docModule}</b>
+ * <pre>
+ * 描述<br/>
+ * 作用：；<br/>
+ * 限制：；<br/>
+ * </pre>
+ *
+ * @author 侯浩(1272)
+ * @date ${datetime}
+ */
+
+
+@Component
+public class ${className}DTOAssembler extends CommonAssembler<${className}DTO, ${className}> {
+
+    @Override
+    protected ${className}DTO doAssemble(${className} ${classname}) {
+        return null;
+    }
+    @Override
+    protected ${className} doParse(${className}DTO dto) {
+        ${className} ${classname} = new ${className}();
+        #foreach ($column in $columns)
+            #if($column.columnName == "ID"
+            || $column.columnName == "TENANT_ID"
+            || $column.columnName == "ORG_ID"
+            || $column.columnName == "STATUS"
+            || $column.columnName == "CREATORID"
+            || $column.columnName == "CREATE_TIME"
+            || $column.columnName == "UPDATERID"
+            || $column.columnName == "UPDATE_TIME"
+            || $column.columnName == "REMARK")
+            #else
+                #if($column.attrname == "adder"||$column.attrname == "addTime"||$column.attrname == "updater"||$column.attrname == "updateTime")
+                #else
+        ${classname}.set$column.attrName (dto.get$column.attrName ());
+                #end
+            #end
+        #end
+        return ${classname};
+    }
+    
+}

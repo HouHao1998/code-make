@@ -1,78 +1,98 @@
-package ${package}.${moduleName}.controller;
+package ${package}.${topName};
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import ${package}.${moduleName}.entity.Result;
-import ${package}.${moduleName}.service.I${className}Service;
-import ${package}.${moduleName}.bo.${className}QueryBo;
-import ${package}.${moduleName}.bo.${className}SaveBo;
-import ${package}.${moduleName}.vo.${className}DetailVo;
-import ${package}.${moduleName}.vo.${className}ListVo;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiOperation;
+import ${package}.${topName}.dto.${className}DTO;
+import ${package}.${topName}.vo.${className}VO;
+import ${packageDomain}.${topName}.Page${className};
+import com.bwda.som.commons.framework.web.common.controller.AjaxResponse;
+import com.bwda.som.commons.framework.web.common.controller.BaseController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.bwda.som.commons.utility.base.model.pagenation.PageResult;
 
-import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+
 /**
- * ${docModule}Controller
+ * <b>${docModule}</b>
+ * <pre>
+ * 描述<br/>
+ * 作用：；<br/>
+ * 限制：；<br/>
+ * </pre>
  *
- * @author ${author}
- * @version 1.0
+ * @author 侯浩(1272)
  * @date ${datetime}
  */
-@Api(tags = "${docModule}管理")
 @RestController
-@RequestMapping("/api/v1/${classname}")
-public class ${className}Controller {
+@RequestMapping("/api/v1/")
+public class ${className}Controller extends BaseController {
+    @Autowired
+    ${className}App ${classname}App;
 
-    @Resource
-    private I${className}Service ${classname}Service;
-
-    @ApiOperation(value = "${docModule}分页查询", notes = "${docModule}分页查询")
-    @PostMapping("/page")
-    public Result<Page<${className}ListVo>> page(@RequestBody ${className}QueryBo queryBo) throws Exception {
-        return ${classname}Service.page(queryBo);
+    /**
+     * 分页查询${docModule}
+     *
+     * @return ${docModule}
+     */
+    @GetMapping("/${classname}")
+    public AjaxResponse get${className}Page(Page${className} page${className}) {
+        return ajax(response -> {
+            PageResult<${className}VO> groupList = ${classname}App.page${className}(page${className});
+            response.addData("metas", groupList.getResults());
+            response.addData("page", groupList.getPage());
+        }, throwable -> AjaxResponse.failure("500", "分页查询${docModule}").addData(ERROR_DETAIL, throwable.getLocalizedMessage()));
     }
 
-    @ApiOperation(value = "${docModule}列表查询", notes = "${docModule}列表查询")
-    @PostMapping("/list")
-    public Result<List<${className}ListVo>> list(@RequestBody ${className}QueryBo queryBo) throws Exception {
-        return ${classname}Service.list(queryBo);
+    /**
+     * 查询${docModule}
+     *
+     * @return ${docModule}列表
+     */
+    @GetMapping("/${classname}")
+    public AjaxResponse getAllList(Page${className} page${className}) {
+        return ajax(response -> {
+            List<${className}VO> groupList = ${classname}App.${className}List(page${className});
+            response.addData("result", groupList);
+        }, throwable -> AjaxResponse.failure("500", "查询${docModule}失败").addData(ERROR_DETAIL, throwable.getLocalizedMessage()));
     }
 
-    @ApiOperation(value = "${docModule}查询", notes = "${docModule}查询")
-    @GetMapping("/info/{id}")
-    public Result<${className}DetailVo> get(@PathVariable("id") long id) throws Exception {
-        return ${classname}Service.get(id);
+
+    /**
+     * 新增${docModule}
+     *
+     * @return ${docModule}
+     */
+    @PostMapping("/${classname}")
+    public AjaxResponse add${className}(@Validated @RequestBody final ${className}DTO ${classname}DTO) {
+        return ajax(response -> {
+            ${classname}App.add${className}(${classname}DTO);
+        }, throwable -> AjaxResponse.failure("500", "新增${docModule}失败").addData(ERROR_DETAIL, throwable.getLocalizedMessage()));
     }
 
-    @ApiOperation(value = "${docModule}新增", notes = "${docModule}新增")
-    @PostMapping("/save")
-    public Result<${className}DetailVo> insert(@RequestBody  ${className}SaveBo saveBo) throws Exception {
-        return ${classname}Service.insert(saveBo);
+    /**
+     * 修改${docModule}
+     */
+    @PutMapping(value = "/${classname}/{sn}")
+    public AjaxResponse update${className}(@PathVariable Long sn, @RequestBody final ${className}DTO ${classname}DTO) {
+        return ajax(response -> {
+            ${classname}DTO.setSn(sn);
+            ${classname}App.update${className}(${classname}DTO);
+        }, throwable -> AjaxResponse.failure("500", "修改${docModule}失败").addData(ERROR_DETAIL, throwable.getLocalizedMessage()));
     }
 
-    @ApiOperation(value = "${docModule}修改", notes = "${docModule}修改")
-    @PostMapping("/update")
-    public Result<${className}DetailVo> update(@RequestBody  ${className}SaveBo saveBo) throws Exception {
-        return ${classname}Service.update(saveBo);
+    /**
+     * 删除${docModule}
+     *
+     * @param sn 编码
+     * @return
+     */
+    @DeleteMapping(value = "/${classname}/{sn}")
+    public AjaxResponse delete${className}(@PathVariable(value = "sn") Long sn) {
+        return ajax(response -> ${classname}App.delete${className}(sn ),
+                throwable -> AjaxResponse.failure("500", "删除${docModule}失败")
+                        .addData(ERROR_DETAIL, throwable.getLocalizedMessage()));
     }
 
-    @ApiOperation(value = "${docModule}批量删除", notes = "${docModule}批量删除")
-    @ApiImplicitParam(name = "ids", value = "主键ID集合，多个以英文逗号拼接", dataType = "String")
-    @GetMapping("/delete")
-    public Result<String> remove(@RequestParam List<Long> ids) throws Exception {
-        return ${classname}Service.remove(ids);
-    }
-    @ApiOperation(value = "${docModule}批量查询", notes = "${docModule}批量查询")
-    @PostMapping("/selectIdsList")
-    public  Result<List<${className}ListVo>> selectIdsList(@RequestBody ${className}QueryBo queryBo) throws Exception {
-        if(CollectionUtils.isEmpty(queryBo.getIds())){
-            return Result.fail("ids不能为空");
-        }
-        return ${classname}Service.selectIdsList(queryBo.getIds());
-    }
 }
