@@ -94,5 +94,43 @@ public class ${className}Controller extends BaseController {
                 throwable -> AjaxResponse.failure("500", "删除${docModule}失败")
                         .addData(ERROR_DETAIL, throwable.getLocalizedMessage()));
     }
+    /**
+     * 获取单一${docModule}
+     *
+     * @param sn 编码
+     * @return
+     */
+    @GetMapping(value = "/${classname}/{sn}")
+    public AjaxResponse get${className}(@PathVariable(value = "sn") Long sn) {
+        return ajax(response -> {
+            ${className}VO ${classname} = ${classname}App.get${className}(sn);
+            response.addData("result", ${classname});
+        }, throwable -> AjaxResponse.failure("500", "删除${docModule}失败")
+                .addData(ERROR_DETAIL, throwable.getLocalizedMessage()));
+    }
+    /**
+     * 启动${docModule}
+     *
+     * @param sn 编码
+     * @return
+     */
+    @GetMapping(value = "/${classname}/enable/{sn}")
+    public AjaxResponse enable${className}(@PathVariable(value = "sn") Long sn) {
+        return ajax(response -> ${classname}App.enable${className}(sn),
+                throwable -> AjaxResponse.failure("500", "启动${docModule}失败")
+                        .addData(ERROR_DETAIL, throwable.getLocalizedMessage()));
+    }
+    /**
+     * 禁用${docModule}
+     *
+     * @param sn 编码
+     * @return
+     */
+    @GetMapping(value = "/${classname}/disable/{sn}")
+    public AjaxResponse disable${className}(@PathVariable(value = "sn") Long sn) {
+        return ajax(response -> ${classname}App.disable${className}(sn),
+                throwable -> AjaxResponse.failure("500", "关闭${docModule}失败")
+                        .addData(ERROR_DETAIL, throwable.getLocalizedMessage()));
+    }
 
 }
