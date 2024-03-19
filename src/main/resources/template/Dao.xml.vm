@@ -9,7 +9,7 @@
         from ${tableName}
         <where>
             #foreach ($column in $columns)
-                #if($column.attrname == "adder"||$column.attrname == "addTime"||$column.attrname == "updater"||$column.attrname == "updateTime")
+                #if($column.attrname == "adder"||$column.attrname == "addTime"||$column.attrname == "updater"||$column.attrname == "updateTime"||$column.attrname == "id")
                 #else
                 #if($column.attrType == "String")
 
@@ -40,7 +40,7 @@
         from ${tableName}
         <where>
             #foreach ($column in $columns)
-                #if($column.attrname == "adder"||$column.attrname == "addTime"||$column.attrname == "updater"||$column.attrname == "updateTime")
+                #if($column.attrname == "adder"||$column.attrname == "addTime"||$column.attrname == "updater"||$column.attrname == "updateTime"||$column.attrname == "id")
                 #else
                 #if($column.attrType == "String")
 
@@ -61,6 +61,7 @@
             #end
            and deleted = 0
         </where>
+        limit #{pageBy.recordBeginIndex}, #{pageBy.size}
     </select>
     <update id="updateBySn">
     update ${tableName}

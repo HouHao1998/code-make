@@ -38,7 +38,7 @@ public class ${className}DTOAssembler extends CommonAssembler<${className}DTO, $
             || $column.columnName == "UPDATE_TIME"
             || $column.columnName == "REMARK")
             #else
-                #if($column.attrname == "adder"||$column.attrname == "addTime"||$column.attrname == "updater"||$column.attrname == "updateTime")
+                #if($column.attrname == "adder"||$column.attrname == "addTime"||$column.attrname == "updater"||$column.attrname == "updateTime"||$column.attrname == "id")
                 #else
         ${classname}.set$column.attrName (dto.get$column.attrName ());
                 #end

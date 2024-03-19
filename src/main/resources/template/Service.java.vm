@@ -17,7 +17,7 @@ import java.util.List;
  */
 public interface ${className}Service  {
     /**
-     * 白名单信息列表
+     * ${docModule}列表
      *
      * @param Page${classname}
      * @return List<${className}>
@@ -26,14 +26,14 @@ public interface ${className}Service  {
 
 
     /**
-     * 添加白名单
+     * 添加${docModule}
      *
      * @param ${classname}
      */
     Long add${className}(${className} ${classname});
 
     /**
-     * 编辑白名单
+     * 编辑${docModule}
      *
      * @param sn         策略编号
      * @param ${classname} 策略
@@ -42,21 +42,21 @@ public interface ${className}Service  {
 
 
     /**
-     * 启用-白名单
+     * 启用-${docModule}
      *
      * @param sn 策略编号
      */
     void enable${className}(Long sn);
 
     /**
-     * 禁用-白名单
+     * 禁用-${docModule}
      *
      * @param sn 策略编号
      */
     void disable${className}(Long sn);
 
     /**
-     * 删除-白名单
+     * 删除-${docModule}
      * 前置条件：已禁用状态
      *
      * @param sn 策略编号
@@ -64,7 +64,7 @@ public interface ${className}Service  {
     void delete${className}(Long sn);
 
     /**
-     * 获取白名单
+     * 获取${docModule}
      *
      * @param sn 白名单编号
      * @return ${className}
@@ -72,7 +72,7 @@ public interface ${className}Service  {
     ${className} get${className}(Long sn);
 
     /**
-     * 分页查询白名单主
+     * 分页查询${docModule}
      *
      * @return 白名单主
      */

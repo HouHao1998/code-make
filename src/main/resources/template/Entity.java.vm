@@ -41,7 +41,7 @@ public class ${className} implements Serializable {
         || $column.columnName == "REMARK")
 
         #else
-            #if($column.attrname == "adder"||$column.attrname == "addTime"||$column.attrname == "updater"||$column.attrname == "updateTime")
+            #if($column.attrname == "adder"||$column.attrname == "addTime"||$column.attrname == "updater"||$column.attrname == "updateTime"||$column.attrname == "id")
 
             #else
                 /**

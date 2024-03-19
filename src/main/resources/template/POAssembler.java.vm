@@ -32,7 +32,7 @@ public class ${className}Assembler extends CommonAssembler<${className}PO, ${cla
             || $column.columnName == "UPDATE_TIME"
             || $column.columnName == "REMARK")
             #else
-                #if($column.attrname == "adder"||$column.attrname == "addTime"||$column.attrname == "updater"||$column.attrname == "updateTime")
+                #if($column.attrname == "adder"||$column.attrname == "addTime"||$column.attrname == "updater"||$column.attrname == "updateTime"||$column.attrname == "id")
                 #else
                     ${classname}Po.set$column.attrName (${classname}.get$column.attrName ());
                 #end
@@ -55,7 +55,7 @@ public class ${className}Assembler extends CommonAssembler<${className}PO, ${cla
             || $column.columnName == "UPDATE_TIME"
             || $column.columnName == "REMARK")
             #else
-                #if($column.attrname == "adder"||$column.attrname == "addTime"||$column.attrname == "updater"||$column.attrname == "updateTime")
+                #if($column.attrname == "adder"||$column.attrname == "addTime"||$column.attrname == "updater"||$column.attrname == "updateTime"||$column.attrname == "id")
                 #else
                     ${classname}.set$column.attrName (po.get$column.attrName ());
                 #end

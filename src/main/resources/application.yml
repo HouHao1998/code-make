@@ -10,7 +10,7 @@ spring:
     datasource:
         type: com.alibaba.druid.pool.DruidDataSource
         driverClassName: com.mysql.jdbc.Driver
-        url: jdbc:mysql://192.168.2.123:10086/saas_data_storage?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true&allowMultiQueries=true&useSSL=false
+        url: jdbc:mysql://192.168.2.123:10086/saas_report?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true&allowMultiQueries=true&useSSL=false
         username: root
         password: cI5v4N2Q%a
     jackson:

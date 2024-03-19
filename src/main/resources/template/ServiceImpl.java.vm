@@ -77,6 +77,6 @@ public class ${className}ServiceImpl implements ${className}Service {
 
     @Override
     public List<${className}> get${className}List(Page${className} page${classname}) {
-        return whiteListsRepo.${classname}List( page${classname},true);
+        return ${classname}Repo.${classname}List( page${classname},true);
     }
 }

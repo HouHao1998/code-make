@@ -35,7 +35,7 @@ public class ${className}VOAssembler extends CommonAssembler<${className}VO, ${c
             || $column.columnName == "UPDATE_TIME"
             || $column.columnName == "REMARK")
             #else
-                #if($column.attrname == "adder"||$column.attrname == "addTime"||$column.attrname == "updater"||$column.attrname == "updateTime")
+                #if($column.attrname == "adder"||$column.attrname == "addTime"||$column.attrname == "updater"||$column.attrname == "updateTime"||$column.attrname == "id")
                 #else
         vo.set$column.attrName (${classname}.get$column.attrName ());
                 #end
