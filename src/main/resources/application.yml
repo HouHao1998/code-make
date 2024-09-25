@@ -13,9 +13,9 @@ spring:
 #        urll: jdbc:mysql://10.2.175.59:3306/fh_online_retailers?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
 #        url: jdbc:mysql://10.2.175.59:3306/fh_after_class?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
 #        url: jdbc:mysql://10.2.175.59:3306/fh_after_feedback?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
-        url: jdbc:mysql://101.43.30.133:3306/receipt?allowMultiQueries=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull
+        url: jdbc:mysql://101.43.30.133:3306/doc_format?allowMultiQueries=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull
 #        url: jdbc:mysql://rm-3ns25xsjmd7efbk8qho.mysql.rds.aliyuncs.com:3306/test?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
-        username: receipt
+        username: doc_format
         password: 123456
     jackson:
         time-zone: GMT+8
